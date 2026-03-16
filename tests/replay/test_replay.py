@@ -1,5 +1,6 @@
 """test_replay."""
 
+import logging
 import os
 
 import pytest
@@ -61,3 +62,20 @@ def test_main_does_not_invoke_load_but_dump(mocker) -> None:
     assert mock_replay_dump.called
     assert not mock_replay_load.called
     assert mock_gen_files.called
+
+
+def test_dump_logs_replay_file(tmp_path, caplog) -> None:
+    """Test that dump logs the replay file path at DEBUG level."""
+    context = {'cookiecutter': {'project': 'test'}}
+    with caplog.at_level(logging.DEBUG, logger='cookiecutter.replay'):
+        replay.dump(tmp_path, 'test_template', context)
+    assert 'test_template.json' in caplog.text
+
+
+def test_load_logs_replay_file(tmp_path, caplog) -> None:
+    """Test that load logs the replay file path at DEBUG level."""
+    context = {'cookiecutter': {'project': 'test'}}
+    replay.dump(tmp_path, 'test_template', context)
+    with caplog.at_level(logging.DEBUG, logger='cookiecutter.replay'):
+        replay.load(tmp_path, 'test_template')
+    assert 'test_template.json' in caplog.text

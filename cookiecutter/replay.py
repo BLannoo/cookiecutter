@@ -8,12 +8,15 @@ from __future__ import annotations
 
 import json
 import os
+import logging
 from typing import TYPE_CHECKING, Any
 
 from cookiecutter.utils import make_sure_path_exists
 
 if TYPE_CHECKING:
     from pathlib import Path
+
+logger = logging.getLogger(__name__)
 
 
 def get_file_name(replay_dir: Path | str, template_name: str) -> str:
@@ -32,6 +35,7 @@ def dump(replay_dir: Path | str, template_name: str, context: dict[str, Any]) ->
         raise ValueError(msg)
 
     replay_file = get_file_name(replay_dir, template_name)
+    logger.debug("Saving context to replay file: %s", replay_file)
 
     with open(replay_file, 'w', encoding="utf-8") as outfile:
         json.dump(context, outfile, indent=2)
@@ -40,6 +44,7 @@ def dump(replay_dir: Path | str, template_name: str, context: dict[str, Any]) ->
 def load(replay_dir: Path | str, template_name: str) -> dict[str, Any]:
     """Read json data from file."""
     replay_file = get_file_name(replay_dir, template_name)
+    logger.debug("Loading context from replay file: %s", replay_file)
 
     with open(replay_file, encoding="utf-8") as infile:
         context: dict[str, Any] = json.load(infile)
