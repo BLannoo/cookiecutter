@@ -8,6 +8,7 @@ import logging
 import os
 import shutil
 import warnings
+import sys
 from collections import OrderedDict
 from pathlib import Path
 from typing import Any
@@ -46,6 +47,7 @@ def is_copy_only_path(path: str, context: dict[str, Any]) -> bool:
         should be rendered or just copied.
     :param context: cookiecutter context.
     """
+    logger.debug('Checking if path %s is copy-only', path)
     try:
         for dont_render in context['cookiecutter']['_copy_without_render']:
             if fnmatch.fnmatch(path, dont_render):
@@ -346,6 +348,7 @@ def generate_files(
     :param keep_project_on_failure: If `True` keep generated project directory even when
         generation fails
     """
+    logger.debug('Starting file generation from repo_dir: %s', repo_dir)
     context = context or OrderedDict([])
 
     env = create_env_with_context(context)
