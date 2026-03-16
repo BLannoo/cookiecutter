@@ -7,6 +7,8 @@ cookiecutter.replay.
 from __future__ import annotations
 
 import json
+import sys
+import logging
 import os
 from typing import TYPE_CHECKING, Any
 
@@ -28,7 +30,7 @@ def dump(replay_dir: Path | str, template_name: str, context: dict[str, Any]) ->
     make_sure_path_exists(replay_dir)
 
     if 'cookiecutter' not in context:
-        msg = 'Context is required to contain a cookiecutter key'
+        msg = f'Context is required to contain a cookiecutter key. Got keys: {list(context.keys())}'
         raise ValueError(msg)
 
     replay_file = get_file_name(replay_dir, template_name)
@@ -45,7 +47,7 @@ def load(replay_dir: Path | str, template_name: str) -> dict[str, Any]:
         context: dict[str, Any] = json.load(infile)
 
     if 'cookiecutter' not in context:
-        msg = 'Context is required to contain a cookiecutter key'
+        msg = f'Context is required to contain a cookiecutter key. Got keys: {list(context.keys())}'
         raise ValueError(msg)
 
     return context
