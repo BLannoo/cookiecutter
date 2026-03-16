@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import json
+import logging
 import os
 import re
 import sys
@@ -98,7 +99,7 @@ def read_user_choice(var_name: str, options: list, prompts=None, prefix: str = "
     :return: Exactly one item of ``options`` that has been chosen by the user
     """
     if not options:
-        raise ValueError
+        raise ValueError("options list cannot be empty")
 
     choice_map = OrderedDict((f'{i}', value) for i, value in enumerate(options, 1))
     choices = choice_map.keys()
@@ -179,7 +180,7 @@ def read_user_dict(var_name: str, default_value, prompts=None, prefix: str = "")
     :return: A Python dictionary to use in the context.
     """
     if not isinstance(default_value, dict):
-        raise TypeError
+        raise TypeError(f"Expected dict for default_value, got {type(default_value).__name__}")
 
     question = (
         prompts[var_name]
