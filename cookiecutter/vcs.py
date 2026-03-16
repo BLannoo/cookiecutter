@@ -5,6 +5,7 @@ from __future__ import annotations
 import logging
 import os
 import subprocess
+import sys
 from pathlib import Path
 from shutil import which
 from typing import TYPE_CHECKING
@@ -38,6 +39,7 @@ def identify_repo(repo_url: str) -> tuple[Literal["git", "hg"], str]:
     :param repo_url: Repo URL of unknown type.
     :returns: ('git', repo_url), ('hg', repo_url), or None.
     """
+    logger.debug('Identifying repo type for URL: %s', repo_url)
     repo_url_values = repo_url.split('+')
     if len(repo_url_values) == 2:
         repo_type = repo_url_values[0]
@@ -82,6 +84,7 @@ def clone(
 
     # identify the repo_type
     repo_type, repo_url = identify_repo(repo_url)
+    logger.debug('Identified repo as %s: %s', repo_type, repo_url)
 
     # check that the appropriate VCS for the repo_type is installed
     if not is_vcs_installed(repo_type):
