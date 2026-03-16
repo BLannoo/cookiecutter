@@ -7,8 +7,8 @@ cookiecutter.replay.
 from __future__ import annotations
 
 import json
-import os
 import logging
+import os
 from typing import TYPE_CHECKING, Any
 
 from cookiecutter.utils import make_sure_path_exists
