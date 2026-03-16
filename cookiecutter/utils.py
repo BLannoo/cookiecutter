@@ -8,6 +8,7 @@ import os
 import shutil
 import stat
 import tempfile
+import sys
 from collections.abc import Iterator
 from pathlib import Path
 from typing import TYPE_CHECKING, Any
@@ -73,6 +74,7 @@ def make_executable(script_path: Path | str) -> None:
 
     :param script_path: The file to change
     """
+    logger.debug('Making %s executable', script_path)
     status = os.stat(script_path)
     os.chmod(script_path, status.st_mode | stat.S_IEXEC)
 
@@ -92,6 +94,7 @@ def simple_filter(filter_function) -> type[Extension]:  # type: ignore[no-untype
 def create_tmp_repo_dir(repo_dir: Path | str) -> Path:
     """Create a temporary dir with a copy of the contents of repo_dir."""
     repo_dir = Path(repo_dir).resolve()
+    logger.debug('Creating temporary repo dir from %s', repo_dir)
     base_dir = tempfile.mkdtemp(prefix='cookiecutter')
     new_dir = f"{base_dir}/{repo_dir.name}"
     logger.debug(f'Copying repo_dir from {repo_dir} to {new_dir}')
