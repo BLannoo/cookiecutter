@@ -8,7 +8,6 @@ import logging
 import os
 import shutil
 import warnings
-import sys
 from collections import OrderedDict
 from pathlib import Path
 from typing import Any
