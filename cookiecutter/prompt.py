@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import json
+import logging
 import os
 import re
 import sys
@@ -145,7 +146,7 @@ def process_json(user_value: str):
     """
     try:
         user_dict = json.loads(user_value, object_pairs_hook=OrderedDict)
-    except Exception as error:
+    except json.JSONDecodeError as error:
         # Leave it up to click to ask the user again
         msg = 'Unable to decode to JSON.'
         raise InvalidResponse(msg) from error
