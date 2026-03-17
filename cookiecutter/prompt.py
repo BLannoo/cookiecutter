@@ -138,7 +138,7 @@ def read_user_choice(var_name: str, options: list, prompts=None, prefix: str = "
 DEFAULT_DISPLAY = 'default'
 
 
-def process_json(user_value: str):
+def process_json(user_value: str) -> dict[str, Any]:
     """Load user-supplied value as a JSON dict.
 
     :param user_value: User-supplied value to load as a JSON dict
